@@ -37,11 +37,9 @@ class ChatConsumer(AsyncWebsocketConsumer):
     async def receive(self, text_data):
         text_data_json = json.loads(text_data)
         message = text_data_json["message"]
-
         # Get the user who sent the message
         user = await self.get_user()
         username = user.username if user.is_authenticated else "Anonymous"
-        print(f"{message} from {user}")
 
         # Send message to room group
         await self.channel_layer.group_send(
@@ -53,4 +51,11 @@ class ChatConsumer(AsyncWebsocketConsumer):
         username = event["username"]
 
         # Send message to WebSocket
-        await self.send(text_data=json.dumps({"message": message, "username": username}))
+        user = await self.get_user()
+        if user.is_authenticated:
+            if user.username == username:
+                await self.send(text_data=json.dumps({"message": message, "username": "You"}))
+            else:
+                await self.send(text_data=json.dumps({"message": message, "username": username}))
+        else:
+            await self.send(text_data=json.dumps({"message": message, "username": username}))

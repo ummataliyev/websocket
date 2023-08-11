@@ -3,14 +3,72 @@
 <head>
     <meta charset="utf-8"/>
     <title>Chat Room</title>
+    <!-- Include Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        .message-container {
+            display: flex;
+            margin-bottom: 10px;
+        }
+
+        .message-bubble {
+            padding: 10px;
+            border-radius: 10px;
+            max-width: 70%;
+        }
+
+        .your-message {
+            justify-content: flex-end;
+        }
+
+        .your-message .message-bubble {
+            background-color: #DCF8C6;
+        }
+
+        .other-message {
+            justify-content: flex-start;
+        }
+
+        .other-message .message-bubble {
+            background-color: #E0E0E0;
+        }
+
+        .message-text {
+            margin: 0;
+        }
+
+        .chat-box {
+            height: 500px; /* Adjust the height as needed */
+        }
+
+        #chat-log {
+            height: 400px; /* Adjust the height as needed */
+            overflow-y: scroll; /* Enable vertical scroll if content overflows */
+        }
+    </style>
 </head>
 <body>
-    <textarea id="chat-log" cols="100" rows="20"></textarea><br>
-    <input id="chat-message-input" type="text" size="100"><br>
-    <input id="chat-message-submit" type="button" value="Send">
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col-md-8 offset-md-2">
+                <div class="chat-box">
+                    <div id="chat-log"></div>
+                    <div class="input-group mt-3">
+                        <input id="chat-message-input" type="text" class="form-control" placeholder="Type your message...">
+                        <div class="input-group-append">
+                            <button id="chat-message-submit" class="btn btn-primary">Send</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
     {{ room_name|json_script:"room-name" }}
     <script>
         const roomName = JSON.parse(document.getElementById('room-name').textContent);
+        const chatLog = document.getElementById('chat-log');
+        const currentUser = 'YourUsername'; // Replace with your username
 
         const chatSocket = new WebSocket(
             'ws://'
@@ -20,9 +78,34 @@
             + '/'
         );
 
+        function createMessageElement(data) {
+            const messageContainer = document.createElement('div');
+            messageContainer.classList.add('message-container');
+            
+            if (data.username === currentUser) {
+                data.username = 'You';
+                messageContainer.classList.add('your-message');
+            } else {
+                messageContainer.classList.add('other-message');
+            }
+
+            const messageBubble = document.createElement('div');
+            messageBubble.classList.add('message-bubble');
+
+            const messageText = document.createElement('p');
+            messageText.classList.add('message-text');
+            messageText.textContent = data.username + ': ' + data.message;
+
+            messageBubble.appendChild(messageText);
+            messageContainer.appendChild(messageBubble);
+            return messageContainer;
+        }
+
         chatSocket.onmessage = function(e) {
             const data = JSON.parse(e.data);
-            document.querySelector('#chat-log').value += (data.message + '\n');
+            const messageElement = createMessageElement(data);
+            chatLog.appendChild(messageElement);
+            chatLog.scrollTop = chatLog.scrollHeight; // Scroll to bottom of chat log
         };
 
         chatSocket.onclose = function(e) {
