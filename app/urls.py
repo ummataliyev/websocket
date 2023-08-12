@@ -6,5 +6,5 @@ from .views import room
 
 urlpatterns = [
     path("", index, name="index"),
-    path("<str:room_name>/", room, name="room"),
+    path("room/", room, name="room")
 ]
