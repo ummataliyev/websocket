@@ -24,7 +24,7 @@
         <div class="container flex-lg-row flex-nowrap align-items-center">
           <div class="navbar-brand w-100">
             <a href="./index.html">
-              <img src="{% static 'assets/img/logo-dark.png' %}" srcset="{% static 'assets/img/logo-dark@2x.png' %} 2x" alt="" />
+              <img src="{% static 'assets/img/web_socket.png' %}" srcset="{% static 'assets/img/logo-dark@2x.png' %} 2x" alt="" />
             </a>
           </div>
           <div class="navbar-collapse offcanvas offcanvas-nav offcanvas-start">
@@ -33,15 +33,14 @@
               <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
             </div>
             <div class="offcanvas-body ms-lg-auto d-flex flex-column h-100">
-              <ul class="navbar-nav">
-                <li class="nav-item dropdown dropdown-mega">
-                  <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">Demos</a>
-                  <!--/.dropdown-menu -->
-                </li>
+              {% comment %} <ul class="navbar-nav">
+                <li class="nav-item">
+                  <a class="nav-link" href="./demos.html">Home</a>
+                </li>                
                 <li class="nav-item dropdown">
                   <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">Pages</a>
                 </li>
-              </ul>
+              </ul> {% endcomment %}
               <!-- /.navbar-nav -->
               <div class="offcanvas-footer d-lg-none">
                 <div>
@@ -61,8 +60,8 @@
           <div class="navbar-other w-100 d-flex ms-auto">
             <ul class="navbar-nav flex-row align-items-center ms-auto">
               <li class="nav-item d-none d-md-block">
-                <a href="./contact.html" class="btn btn-sm btn-primary">Contact Me</a>
-              </li>
+                <a href="./contact.html" class="btn btn-sm" style="background-color: #FFE873; color: #306998;">Home</a>
+              </li>                                       
               <li class="nav-item d-lg-none">
                 <button class="hamburger offcanvas-nav-btn"><span></span></button>
               </li>
@@ -72,22 +71,23 @@
       </nav>
     </header>
     <section class="section-frame mx-xxl-11 overflow-hidden">
-      <div class="wrapper image-wrapper bg-image bg-cover bg-overlay bg-overlay-light-500" data-image-src="{% static 'assets/img/photos/bg23.png' %}">
+      <div class="wrapper image-wrapper bg-image bg-cover bg-overlay bg-overlay-light-500" data-image-src="{% static 'assets/img/photos/py.webp' %}">
         <div class="container py-16 py-md-18 text-center position-relative">
           <div class="position-absolute shape leaf d-none d-lg-block w-10" style="bottom: 30%; left: 2%;"><img src="{% static 'assets/img/svg/scribble.svg' %}" class="svg-inject icon-svg w-100 h-100" alt="" /></div>
           <div class="position-absolute shape fuchsia d-none d-lg-block w-6" style="top: 20%; right: 2%; transform: rotate(70deg);"><img src="{% static 'assets/img/svg/tri.svg' %}" class="svg-inject icon-svg w-100 h-100" alt="" /></div>
           <div class="position-absolute shape grape d-none d-lg-block w-6" style="bottom: 28%; right: 5%;"><img src="{% static 'assets/img/svg/circle.svg' %}" class="svg-inject icon-svg w-100 h-100" alt="" /></div>
           <div class="row">
             <div class="col-lg-9 col-xxl-8 mx-auto">
-              <h1 class="display-1 fs-70 px-md-10 px-lg-0 px-xl-8 mb-5">👋 Hello! I'm <img class="d-inline w-12 mx-1" src="{% static 'assets/img/avatars/avatar.png' %}" alt=""> Camille, a product designer.</h1>
-              <p class="lead fs-24 px-md-10 px-lg-0 mx-lg-n10 mx-xl-0 mb-8">I’m very passionate about the work that I do, and if you are curious you can find my works on <a href="#" class="hover" style="color: var(--bs-dribbble);">Dribbble</a>, my portfolio on <a href="#" class="hover" style="color: var(--bs-behance);">Behance</a>.</p>
+              <h1 class="display-1 fs-70 px-md-10 px-lg-0 px-xl-8 mb-5">Hello!<br>Join to our community</h1>
+              <p class="lead fs-24 px-md-10 px-lg-0 mx-lg-n10 mx-xl-0 mb-8">Choose one room and invite your firends, enjoy<a href="#" class="hover" style="color: var(--bs-dribbble);"></p>
               <div>
-                <form method="get" action="{% url 'room' %}">
-                    What chat room would you like to enter?<br>
-                    <input id="room-name-input" type="text" name="room_name" size="50">
-                    <input id="room-name-submit" type="submit" class="btn btn-lg btn-primary btn-icon btn-icon-end" value="Go" style="height: auto;">
-                </form>
-            </div>
+                <form method="get" action="{% url 'room' room_name %}">
+                  <span style="color: #306998;">What chat room would you like to enter?</span><br>
+                  <input id="room-name-input" type="text" name="room_name" size="50" style="outline: none;">
+                  <input id="room-name-submit" type="submit" class="btn btn-sm" value="Go" style="background-color: #FFE873; color: #306998;">
+                </form>                            
+              </div>
+              {{ room_name|json_script:"room-name" }}
             </div>
           </div>
         </div>
@@ -96,14 +96,12 @@
 <footer>
 <div class="container py-7">
   <div class="d-md-flex align-items-center justify-content-between">
-    <p class="mb-2 mb-lg-0">© 2023 Sandbox. All rights reserved.</p>
+    <p class="mb-2 mb-lg-0" style="color: #306998;">© 2023 Websocket</p>
     <nav class="nav social social-muted mb-0 text-md-end">
-      <a href="#"><i class="uil uil-twitter"></i></a>
-      <a href="#"><i class="uil uil-facebook-f"></i></a>
-      <a href="#"><i class="uil uil-dribbble"></i></a>
-      <a href="#"><i class="uil uil-instagram"></i></a>
-      <a href="#"><i class="uil uil-youtube"></i></a>
-    </nav>
+      <a href="#"><i class="uil uil-twitter" style="color: #306998;"></i></a>
+      <a href="#"><i class="uil uil-instagram" style="color: #306998;"></i></a>
+      <a href="#"><i class="uil uil-youtube" style="color: #306998;"></i></a>
+    </nav>    
   </div>
 </div>
 </footer>
