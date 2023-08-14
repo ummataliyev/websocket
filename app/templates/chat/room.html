@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html>
 <head>
@@ -6,45 +7,80 @@
     <!-- Include Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <style>
-        .message-container {
-            display: flex;
-            margin-bottom: 10px;
-        }
-
-        .message-bubble {
-            padding: 10px;
-            border-radius: 10px;
-            max-width: 70%;
-        }
-
-        .your-message {
-            justify-content: flex-end;
-        }
-
-        .your-message .message-bubble {
-            background-color: #DCF8C6;
-        }
-
-        .other-message {
-            justify-content: flex-start;
-        }
-
-        .other-message .message-bubble {
-            background-color: #E0E0E0;
-        }
-
-        .message-text {
-            margin: 0;
-        }
-
         .chat-box {
-            height: 500px; /* Adjust the height as needed */
+            border: 1px solid #ddd;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+            background-color: #f5f5f5;
+            display: flex;
+            flex-direction: column;
+            height: 800px;
+            background-image: url('{% static "assets/img/photos/telegram_back.jpg" %}');
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center;
+            width: auto;
+
         }
 
         #chat-log {
-            height: 400px; /* Adjust the height as needed */
-            overflow-y: scroll; /* Enable vertical scroll if content overflows */
+            flex: 1;
+            overflow-y: auto;
+            padding-right: 20px;
+            background-color: white;
+            border-radius: 5px;
+            padding: 10px;
+            margin-bottom: 10px;
+            background-image: url('{% static "assets/img/photos/telegram_back.jpg" %}');
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center;
         }
+
+        .input-group {
+            display: flex;
+            align-items: center;
+            background-color: #fff;
+            border-radius: 5px;
+            padding: 10px;
+        }
+
+        #chat-message-input {
+            border: none;
+            padding: 10px;
+            flex: 1;
+            border-radius: 5px;
+        }
+
+        #chat-message-submit {
+            margin-left: 10px; /* Add some space between input and button */
+        }
+
+        .message-container {
+            display: flex;
+            justify-content: flex-start;
+            margin-bottom: 10px;
+        }
+        
+        .message-bubble {
+            background-color: #e1f7e8;
+            border-radius: 10px;
+            padding: 10px 15px;
+            max-width: 70%;
+            word-wrap: break-word;
+        }
+        
+        .your-message .message-bubble {
+            background-color: #dcf8c6;
+            align-self: flex-end;
+            margin-left: auto; /* Move the bubble to the right for the current user */
+        }
+        
+        .other-message .message-bubble {
+            margin-right: auto; /* Move the bubble to the left for other users */
+        }
+        
     </style>
 </head>
 <body>
@@ -52,14 +88,13 @@
         <div class="row">
             <div class="col-md-8 offset-md-2">
                 <div class="chat-box">
-                    <div id="chat-log"></div>
-                    <div class="input-group mt-3">
+                    <div id="chat-log" class="msger-chat"></div>
+                    <div class="input-group">
                         <input id="chat-message-input" type="text" class="form-control" placeholder="Type your message...">
-                        <div class="input-group-append">
-                            <button id="chat-message-submit" class="btn btn-primary">Send</button>
-                        </div>
+                        <button id="chat-message-submit" class="btn btn-primary">Send</i></button> 
                     </div>
                 </div>
+                <button id="inviteButton" class="btn btn-primary mt-3">Invite Your Friend</button>
             </div>
         </div>
     </div>
@@ -82,24 +117,34 @@
             const messageContainer = document.createElement('div');
             messageContainer.classList.add('message-container');
             
-            if (data.username === currentUser) {
-                data.username = 'You';
-                messageContainer.classList.add('your-message');
-            } else {
-                messageContainer.classList.add('other-message');
-            }
-
             const messageBubble = document.createElement('div');
             messageBubble.classList.add('message-bubble');
-
+            
             const messageText = document.createElement('p');
             messageText.classList.add('message-text');
-            messageText.textContent = data.username + ': ' + data.message;
-
+            
+            if (data.username === 'You') {
+                messageText.textContent = data.message;
+            } else {
+                messageText.textContent = data.username + ':' + data.message;
+            }
+            
+            
             messageBubble.appendChild(messageText);
             messageContainer.appendChild(messageBubble);
+            
+            if (data.username === 'You') {
+                messageContainer.classList.add('your-message');
+                messageBubble.classList.add('your-message-bubble');
+            } else {
+                messageContainer.classList.add('other-message');
+                messageBubble.classList.add('other-message-bubble');
+            }
+            
             return messageContainer;
         }
+        
+        
 
         chatSocket.onmessage = function(e) {
             const data = JSON.parse(e.data);
@@ -128,5 +173,21 @@
             messageInputDom.value = '';
         };
     </script>
+    <script>
+        document.getElementById("inviteButton").addEventListener("click", function() {
+            const roomID = roomName;
+            const roomLink = `${window.location.protocol}//${window.location.host}/room/${roomID}`;
+            
+            const textarea = document.createElement("textarea");
+            textarea.value = roomLink;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand("copy");
+            document.body.removeChild(textarea);
+
+            alert("Room link copied to clipboard! You can now share it with your friend.");
+        });
+    </script>
+
 </body>
 </html>
