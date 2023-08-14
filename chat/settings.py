@@ -1,9 +1,9 @@
 import os
 from pathlib import Path
-from environs import Env
-
-env = Env()
-env.read_env()
+# from environs import Env
+#
+# env = Env()
+# env.read_env()
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -14,8 +14,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-DEBUG = env.str("DEBUG")
-SECRET_KEY = env.str("SECRET_KEY")
+DEBUG = True
+SECRET_KEY = "qwdqwqdwdwd"
 
 # SECURITY WARNING: don't run with debug turned on in production!
 ALLOWED_HOSTS = ['*']
@@ -144,3 +144,4 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+LOGIN_REDIRECT_URL = '/'
