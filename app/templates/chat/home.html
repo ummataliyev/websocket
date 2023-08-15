@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %} Home {% endblock title %}
+
+{% block content %}
+
+<section class="section-frame mx-xxl-11 overflow-hidden">
+    <div class="wrapper image-wrapper bg-image bg-cover bg-overlay bg-overlay-light-500"
+         data-image-src="{% static 'assets/img/photos/py.webp' %}">
+        <div class="container py-16 py-md-18 text-center position-relative">
+            <div class="position-absolute shape leaf d-none d-lg-block w-10" style="bottom: 30%; left: 2%;"><img
+                    src="{% static 'assets/img/svg/scribble.svg' %}" class="svg-inject icon-svg w-100 h-100"
+                    alt=""/></div>
+            <div class="position-absolute shape fuchsia d-none d-lg-block w-6"
+                 style="top: 20%; right: 2%; transform: rotate(70deg);"><img
+                    src="{% static 'assets/img/svg/tri.svg' %}" class="svg-inject icon-svg w-100 h-100" alt=""/>
+            </div>
+            <div class="position-absolute shape grape d-none d-lg-block w-6" style="bottom: 28%; right: 5%;"><img
+                    src="{% static 'assets/img/svg/circle.svg' %}" class="svg-inject icon-svg w-100 h-100" alt=""/>
+            </div>
+            <div class="row">
+                <div class="col-lg-9 col-xxl-8 mx-auto">
+                    <h1 class="display-1 fs-70 px-md-10 px-lg-0 px-xl-8 mb-5">Hello!<br>Join to our community</h1>
+                    <p class="lead fs-24 px-md-10 px-lg-0 mx-lg-n10 mx-xl-0 mb-8">Choose one room and invite your
+                        firends, enjoy<a href="#" class="hover" style="color: var(--bs-dribbble);"></p>
+                    <div>
+                        <form method="get" action="{% url 'room' room_name %}">
+                            <span style="color: #306998;">What chat room would you like to enter?</span><br>
+                            <input id="room-name-input" type="text" name="room_name" size="50"
+                                   style="outline: none;">
+                            <input id="room-name-submit" type="submit" class="btn btn-sm" value="Go"
+                                   style="background-color: #FFE873; color: #306998;">
+                        </form>
+                    </div>
+                    {{ room_name|json_script:"room-name" }}
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+</body>
+
+{% endblock content %}

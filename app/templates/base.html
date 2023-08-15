@@ -1,0 +1,90 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="An impressive and flawless site template that includes various UI elements and countless features, attractive ready-made blocks and rich pages, basically everything you need to create a unique and professional website.">
+    <meta name="keywords" content="bootstrap 5, business, corporate, creative, gulp, marketing, minimal, modern, multipurpose, one page, responsive, saas, sass, seo, startup, html5 template, site template">
+    <meta name="author" content="elemis">
+    <title>Chatting</title>
+    <link rel="shortcut icon" href="{% static 'assets/img/favicon.png' %}">
+    <link rel="stylesheet" href="{% static 'css/plugins.css' %}">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/colors/navy.css' %}">
+    <link rel="preload" href="{% static 'css/fonts/space.css' %}" as="style" onload="this.rel='stylesheet'">
+</head>
+
+<body>
+<div class="content-wrapper">
+    <header class="wrapper bg-soft-primary my-1">
+        <nav class="navbar navbar-expand-lg center-nav navbar-light navbar-bg-light">
+            <div class="container flex-lg-row flex-nowrap align-items-center">
+                <div class="navbar-brand w-100">
+                    <a href="./index.html">
+                        <img src="{% static 'assets/img/web_socket.png' %}" srcset="{% static 'assets/img/web_socket.png' %} 2x" alt=""/>
+                    </a>
+                </div>
+                <div class="navbar-collapse offcanvas offcanvas-nav offcanvas-start">
+                    <div class="offcanvas-header d-lg-none">
+                        <h3 class="text-white fs-30 mb-0">Web Chatting</h3>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                    </div>
+                <div class="navbar-other w-100 d-flex ms-auto">
+                    <ul class="navbar-nav flex-row align-items-center ms-auto">
+                        <li class="nav-item d-none d-md-block">
+                            <a href="{% url 'home' %}" class="btn btn-sm"
+                               style="background-color: #FFE873; color: #306998;">Home</a>
+                        </li>
+                        <li class="nav-item d-none d-md-block">
+                            <a href="{% url 'register' %}" class="btn btn-sm"
+                               style="background-color: #FFE873; color: #306998;">Register</a>
+                        </li>
+                        <li class="nav-item d-lg-none">
+                            <button class="hamburger offcanvas-nav-btn"><span></span></button>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+<body>
+
+    {% block content %}
+
+    {% endblock content %}
+
+<footer>
+    <div class="container py-7">
+        <div class="d-md-flex align-items-center justify-content-between">
+            <p class="mb-2 mb-lg-0" style="color: #306998;">© 2023 Websocket</p>
+            <nav class="nav social social-muted mb-0 text-md-end">
+                <a href="#"><i class="uil uil-twitter" style="color: #306998;"></i></a>
+                <a href="#"><i class="uil uil-instagram" style="color: #306998;"></i></a>
+                <a href="#"><i class="uil uil-youtube" style="color: #306998;"></i></a>
+            </nav>
+        </div>
+    </div>
+</footer>
+    <script data-cfasync="false" src="{% static 'cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js' %}"></script>
+    <script src="{% static 'js/plugins.js' %}"></script>
+    <script src="{% static 'js/theme.js' %}"></script>
+    <script>
+        document.querySelector('#room-name-input').focus();
+        document.querySelector('#room-name-input').onkeyup = function (e) {
+            if (e.keyCode === 13) {  // enter, return
+                document.querySelector('#room-name-submit').click();
+            }
+        };
+
+        document.querySelector('#room-name-submit').onclick = function (e) {
+            var roomName = document.querySelector('#room-name-input').value;
+            window.location.pathname = '/chat/' + roomName + '/';
+        };
+    </script>
+
+</body>
+
+</html>

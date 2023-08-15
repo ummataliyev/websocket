@@ -1,9 +1,9 @@
 import os
 from pathlib import Path
-# from environs import Env
-#
-# env = Env()
-# env.read_env()
+from environs import Env
+
+env = Env()
+env.read_env()
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -14,8 +14,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-DEBUG = True
-SECRET_KEY = "qwdqwqdwdwd"
+DEBUG = env.str('DEBUG')
+SECRET_KEY = env.str('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 ALLOWED_HOSTS = ['*']
@@ -85,10 +85,15 @@ WSGI_APPLICATION = 'chat.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': env.str("POSTGRES_DB"),
+        'USER': env.str("POSTGRES_USER"),
+        'PASSWORD': env.str("POSTGRES_PASSWORD"),
+        'HOST': env.str("POSTGRES_HOST"),
+        'PORT': env.str("POSTGRES_PORT"),
     }
 }
+
 
 
 # Password validation
