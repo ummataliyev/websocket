@@ -1,8 +1,9 @@
 from django.shortcuts import render
 from django.shortcuts import reverse
 from django.shortcuts import redirect
-
 from django.contrib.auth.forms import UserCreationForm
+
+from .utils import registered_required
 
 
 def home(request):
@@ -10,6 +11,7 @@ def home(request):
     return render(request, "chat/home.html", {"room_name": room_name})
 
 
+@registered_required
 def room(request, room_name):
     return render(request, "chat/room.html", {"room_name": room_name})
 
