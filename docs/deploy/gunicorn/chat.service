@@ -6,7 +6,7 @@ After=network.target
 [Service]
 User=root
 Group=www-data
-WorkingDirectory=/root/blog-website
+WorkingDirectory=/root/websocket
 ExecStart=/root/websocket/venv/bin/gunicorn \
           --access-logfile - \
           --workers 3 \
