@@ -21,4 +21,4 @@ jobs:
             source venv/bin/activate
             python3 manage.py migrate
             deactivate
-            systemctl restart chat.service
+            systemctl restart web_chat.service
