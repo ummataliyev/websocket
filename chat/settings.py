@@ -20,8 +20,8 @@ SECRET_KEY = env.str('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 ALLOWED_HOSTS = ['*']
 
-# Application definition
 
+# Application definition
 INSTALLED_APPS = [
     # external
     'daphne',
@@ -85,7 +85,7 @@ WSGI_APPLICATION = 'chat.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
+        'ENGINE': env.str('POSTGRES_ENGINE'),
         'NAME': env.str("POSTGRES_DB"),
         'USER': env.str("POSTGRES_USER"),
         'PASSWORD': env.str("POSTGRES_PASSWORD"),
@@ -93,7 +93,6 @@ DATABASES = {
         'PORT': env.str("POSTGRES_PORT"),
     }
 }
-
 
 
 # Password validation
@@ -134,7 +133,7 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 STATICFILES_DIRS = [BASE_DIR / 'static']
-STATIC_ROOT = BASE_DIR / 'staticfiles'
+STATIC_ROOT = '/var/www/websocket_static/static'
 STATICFILES_FINDERS = [
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
@@ -144,6 +143,7 @@ STATICFILES_FINDERS = [
 # Media files
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field

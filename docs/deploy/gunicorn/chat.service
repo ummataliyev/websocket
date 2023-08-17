@@ -1,17 +1,13 @@
 [Unit]
-Description=gunicorn daemon
-Requires=gunicorn.socket
+Description=daphne daemon for seb
 After=network.target
 
 [Service]
 User=root
 Group=www-data
 WorkingDirectory=/root/websocket
-ExecStart=/root/websocket/venv/bin/gunicorn \
-          --access-logfile - \
-          --workers 3 \
-          --bind unix:/run/web_chat.sock \
-          chat.asgi:application 
+ExecStart=/root/websocket/venv/bin/daphne -b 0.0.0.0 -p 8001 chat.asgi:application
+
 
 [Install]
 WantedBy=multi-user.target
