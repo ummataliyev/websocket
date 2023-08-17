@@ -1,0 +1,26 @@
+name: Continuous Deployment
+
+on:
+  pull_request:
+    types:
+      - closed
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: executing remote ssh commands using password
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          password: ${{ secrets.PASSWORD }}
+          script: |
+            cd websocket
+            git pull origin main
+            source venv/bin/activate
+            python3 manage.py migrate
+            deactivate
+            systemctl restart chat.service
